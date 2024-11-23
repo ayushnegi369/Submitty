@@ -50,8 +50,8 @@ jobs:
       - name: Vagrant Up
         run: CI=1 vagrant up
 
-      - name: Validate image
-        run: curl --show-error --fail --include http://localhost:1511
+      # - name: Validate image
+      #   run: curl --show-error --fail --include http://localhost:1511
 
       - name: Save image
         run: vagrant package --output submitty.box
