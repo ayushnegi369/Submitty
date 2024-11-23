@@ -25,15 +25,15 @@ jobs:
           sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target /
           hdiutil unmount /Volumes/VirtualBox
 
-      - name: Get latest version
-        id: get-version
-        run: |
-          TAG=$(git describe --tags --abbrev=0)
-          if ! [[ $TAG =~ ^v[0-9]{2}\.[0-9]{2}\.[0-9]{2}$ ]]; then
-            echo "Invalid tag name: '$TAG'"
-            exit 1
-          fi
-          echo "version=${TAG:1}" >> $GITHUB_OUTPUT
+      # - name: Get latest version
+      #   id: get-version
+      #   run: |
+      #     TAG=$(git describe --tags --abbrev=0)
+      #     if ! [[ $TAG =~ ^v[0-9]{2}\.[0-9]{2}\.[0-9]{2}$ ]]; then
+      #       echo "Invalid tag name: '$TAG'"
+      #       exit 1
+      #     fi
+      #     echo "version=${TAG:1}" >> $GITHUB_OUTPUT
 
       - name: Install HCP CLI
         run: |
@@ -60,7 +60,7 @@ jobs:
         run: |
           export VAGRANT_CLOUD_TOKEN="${{ secrets.VAGRANT_CLOUD_TOKEN }};${{ steps.hcp-token.outputs.HCP_TOKEN }}"
           vagrant cloud auth login
-          vagrant cloud publish SubmittyBot/ubuntu22-dev ${{ steps.get-version.outputs.version }}.$(date +"%y%m%d%H%M") virtualbox submitty.box --release --force
+          vagrant cloud publish SubmittyBot/ubuntu22-dev 1.0.0.0.$(date +"%y%m%d%H%M") virtualbox submitty.box --release --force
           vagrant cloud auth logout
 
       - name: Acquire Job ID
