@@ -35,39 +35,39 @@ require 'json'
 ON_CI = !ENV.fetch('CI', '').empty?
 
 def gen_script(machine_name, worker: false, base: false)
-  no_submissions = !ENV.fetch('NO_SUBMISSIONS', '').empty?
-  reinstall = ENV.has_key?('VAGRANT_BOX') || base
-  extra = ENV.fetch('EXTRA', '')  
-  setup_cmd = 'bash ${GIT_PATH}/.setup/'
-  if reinstall || ON_CI
-    if worker
-      setup_cmd += 'install_worker.sh'
-    else
-      setup_cmd += 'vagrant/setup_vagrant.sh'
-      if no_submissions
-        setup_cmd += ' --no_submissions'
-      end
-      if ON_CI
-        setup_cmd += ' --ci'
-      end
-    end
-  else
-    setup_cmd += 'install_success_from_cloud.sh'
-  end
-  unless extra.empty?
-    setup_cmd += " #{extra}"
-  end
-  setup_cmd += " 2>&1 | tee ${GIT_PATH}/.vagrant/logs/#{machine_name}.log"
+#   no_submissions = !ENV.fetch('NO_SUBMISSIONS', '').empty?
+#   reinstall = ENV.has_key?('VAGRANT_BOX') || base
+#   extra = ENV.fetch('EXTRA', '')  
+#   setup_cmd = 'bash ${GIT_PATH}/.setup/'
+#   if reinstall || ON_CI
+#     if worker
+#       setup_cmd += 'install_worker.sh'
+#     else
+#       setup_cmd += 'vagrant/setup_vagrant.sh'
+#       if no_submissions
+#         setup_cmd += ' --no_submissions'
+#       end
+#       if ON_CI
+#         setup_cmd += ' --ci'
+#       end
+#     end
+#   else
+#     setup_cmd += 'install_success_from_cloud.sh'
+#   end
+#   unless extra.empty?
+#     setup_cmd += " #{extra}"
+#   end
+#   setup_cmd += " 2>&1 | tee ${GIT_PATH}/.vagrant/logs/#{machine_name}.log"
 
-  script = <<SCRIPT
-    GIT_PATH=/usr/local/submitty/GIT_CHECKOUT/Submitty
-    DISTRO=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-    VERSION=$(lsb_release -sr | tr '[:upper:]' '[:lower:]')
-    mkdir -p ${GIT_PATH}/.vagrant/logs
-    #{setup_cmd}
-SCRIPT
+#   script = <<SCRIPT
+#     GIT_PATH=/usr/local/submitty/GIT_CHECKOUT/Submitty
+#     DISTRO=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+#     VERSION=$(lsb_release -sr | tr '[:upper:]' '[:lower:]')
+#     mkdir -p ${GIT_PATH}/.vagrant/logs
+#     #{setup_cmd}
+# SCRIPT
 
-  return script
+  return ''
 end
 
 base_boxes = Hash[]
